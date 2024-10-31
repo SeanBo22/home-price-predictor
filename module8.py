@@ -174,44 +174,54 @@ print(avg_sqft)
 ### End of Cell 1
 
 ### Beginning of Cell 2
-indices = np.arange(len(x))
 
-X_train, X_test, y_train, y_test, idx_train, idx_test = train_test_split(
-    x, y, indices, test_size=0.2, random_state=42)
+# Use train_test_split from sklearn to divide the data into a training and testing set
+# train_size equals 0.2, meaning the training set will be 80% of the data and the testing set will be 20% of the data
+X_train, X_test, y_train, y_test = train_test_split(
+    x, y, test_size=0.2)
 
-# Scale the features
+# Create a StandardScaler object
 scaler = StandardScaler()
+
+# Use the fit_transform method to transform and fit the X training data
 X_train = scaler.fit_transform(X_train)
+
+# Use the transform method to transform the X testing data
 X_test = scaler.transform(X_test)
 
-# Step 3: Create the ANN model
+# Create an ANN
+# Use keras to create a ANN
 model = keras.Sequential()
-model.add(layers.Dense(64, activation='relu', input_shape=(X_train.shape[1],)))
-model.add(layers.Dense(64, activation='relu'))
-model.add(layers.Dense(1))  # Output layer for regression
 
-# Compile the model
+# Use the add method to add a dense layer. Layer will have 64 neurons and use the relu activation function 
+model.add(layers.Dense(64, activation='relu', input_shape=(X_train.shape[1],)))
+
+# Use the add method to add another dense layer. Layer will have 64 neurons and use the relu activation function 
+model.add(layers.Dense(64, activation='relu'))
+
+# Use the add method to add a last dense layer. This layer will be the output layer with 1 neuron
+model.add(layers.Dense(1))
+
+# Use the compile method to prepare the model
+# Model will use adam for the optimizer and mean squared error for its loss function
 model.compile(optimizer='adam', loss='mean_squared_error')
 
-# Step 4: Train the model
-model.fit(X_train, y_train, epochs=100, batch_size=5, verbose=1)
+# Use the fit method to train model
+# Model will use the X and y training data.
+# Model will have 10000 epochs and a batch size of 6
+his = model.fit(X_train, y_train, epochs=10000, batch_size=6, verbose=1)
 
-### End of Cell 2
-
-### Beginning of Cell 3
+### Get the home seller's data
 s_beds, s_baths, s_sqft = get_seller_data()
 
+# Create a numpy array from the seller's data
+s_d = np.array([[s_beds, s_baths, s_sqft]])
 
-# Create an input array for the model prediction
-input_data = np.array([[s_beds, s_baths, s_sqft]])
-input_data_scaled = scaler.transform(input_data)  # Scale the input
+# Use the transform method to transform the seller's data
+s_d = scaler.transform(s_d)  # Scale the input
 
-# Make a prediction
-predicted_price = model.predict(input_data_scaled)
-# Display the predicted price
-print("\nThe predicted price for your home is: ${:,.2f}".format(predicted_price[0][0]))
-
-### End of Cell 3
+# Use the predict method to get prediction from model using the seller's data
+predicted_price = model.predict(s_d)
 
 ### Beginning of Cell 4
 y_pred = model.predict(X_test)
@@ -242,36 +252,56 @@ data = {
 metrics_df = pd.DataFrame(data)
 
 # Set up the subplot grid
-fig, axs = plt.subplots(1, 2, figsize=(12, 6))
+# Set up the subplot grid with a larger figure size
+fig, axs = plt.subplots(3, 2, figsize=(14, 10))  # Increase figure size
+fig.subplots_adjust(hspace=0.4)  # Space between rows
+gs = fig.add_gridspec(3, 2)
 
-# Display the results DataFrame as a table on the left subplot
-axs[0].axis('off')
-metrics_table = axs[0].table(cellText=metrics_df.values, 
-                             colLabels=metrics_df.columns, 
-                             cellLoc='center', 
-                             loc='center')
+p_price_display = "Your Home Price: ${:.2f}".format(predicted_price[0][0])
+# First row: Display a single number across both columns
+fig.suptitle('AI Price Predictor', fontsize=16)
+fig.text(0.5, 0.85, p_price_display, ha='center', va='center', fontsize=30, color='green')
+axs[0, 0].axis('off')
+axs[0, 1].axis('off')  # Make sure both cells are off
+axs[1, 0].axis('off')
+axs[1, 1].axis('off')
+axs[2, 0].axis('off')
+axs[2, 1].axis('off')
+
+# Second row: Display the metrics table and results table
+axs[1, 0].axis('off')
+metrics_table = axs[1, 0].table(cellText=metrics_df.values, 
+                                colLabels=metrics_df.columns, 
+                                cellLoc='center', 
+                                loc='center')
 metrics_table.auto_set_font_size(False)
 metrics_table.set_fontsize(10)
 metrics_table.scale(1.2, 1.2)
-axs[0].set_title("Home Metrics Comparison", fontsize=14)
+axs[1, 0].set_title("Region Avg. vs. Your Home", fontsize=14)
 
-# Display the metrics DataFrame as a table on the right subplot
-axs[1].axis('off')
-results_table = axs[1].table(cellText=results_df.round(2).values, 
-                             colLabels=results_df.columns, 
-                             cellLoc='center', 
-                             loc='center')
+results_table = axs[1, 1].table(cellText=results_df.round(2).values, 
+                                colLabels=results_df.columns, 
+                                cellLoc='center', 
+                                loc='center')
 results_table.auto_set_font_size(False)
 results_table.set_fontsize(10)
 results_table.scale(1.2, 1.2)
-axs[1].set_title("Prediction Results Comparison", fontsize=14)
+axs[1, 1].set_title("Prediction Results Comparison", fontsize=14)
 
-# Adjust layout to add space between the tables
-plt.subplots_adjust(wspace=0.4)  # Adjust horizontal space between tables
+ax_loss = fig.add_subplot(gs[2, :])  # Span both columns in the last row
+ax_loss.plot(his.history['loss'], label='Training Loss', color='blue', linewidth=2)
+ax_loss.set_title('Model Loss Over Epochs', fontsize=18)  # Increase title font size
+ax_loss.set_xlabel('Epochs', fontsize=16)  # Increase x-axis label font size
+ax_loss.set_ylabel('Mean Squared Error (MSE)', fontsize=16)  # Increase y-axis label font size
+ax_loss.set_ylim(0, max(his.history['loss']) * 1.1)  # Adjust Y-axis limits for better visibility
+ax_loss.grid(True)  # Add gridlines for easier reading
+ax_loss.legend(loc='upper right', fontsize=14)  # Increase legend font size
 
-# Show the combined plot
+# Adjust layout
 plt.tight_layout()
 plt.show()
+
+
 
 
 
