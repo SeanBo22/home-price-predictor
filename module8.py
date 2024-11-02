@@ -31,7 +31,6 @@ sp_zp_codes = {"South": ["80909", "80910", "80915", "80916"],
                "West": ["80904", "80907", "80919"], 
                "North": ["80920", "80921", "80924"],
                "East": ["80927", "80938", "80939", "80951"]}
-
 valid_zp_codes = [zip_code for zip_codes in sp_zp_codes.values() for zip_code in zip_codes ]
 
 # Function to get a zip code
@@ -63,8 +62,8 @@ def get_s_zp_code():
 # Parameters - Seller zip code (s_zp - str)
 def l_z_data(s_region):
     print("\n**** Loading Housing Data for Zip Code: {} ****".format(s_zp))
-    # Read the csv for the zip code entered and store it in a pandas df
-    data_pd = pd.read_csv('zillow_data/{}-COS/house-data.csv'.format(s_region), header=0)
+    # Read the csv for the region that contains the zip code entered and store it in a pandas df
+    data_pd = pd.read_csv('data/{}-COS/house-data.csv'.format(s_region), header=0)
     return data_pd
 
 # Function to get the number of beds for seller's home
@@ -171,45 +170,52 @@ print(avg_beds)
 print(avg_baths)
 print(avg_sqft)
 
-### End of Cell 1
-
-### Beginning of Cell 2
-
 # Use train_test_split from sklearn to divide the data into a training and testing set
 # train_size equals 0.2, meaning the training set will be 80% of the data and the testing set will be 20% of the data
-X_train, X_test, y_train, y_test = train_test_split(
+x_tn, x_ts, y_tn, y_ts = train_test_split(
     x, y, test_size=0.2)
 
 # Create a StandardScaler object
 scaler = StandardScaler()
 
 # Use the fit_transform method to transform and fit the X training data
-X_train = scaler.fit_transform(X_train)
+x_tn = scaler.fit_transform(x_tn)
 
 # Use the transform method to transform the X testing data
-X_test = scaler.transform(X_test)
+x_ts = scaler.transform(x_ts)
 
 # Create an ANN
 # Use keras to create a ANN
-model = keras.Sequential()
+home_m_ANN = keras.Sequential()
 
 # Use the add method to add a dense layer. Layer will have 64 neurons and use the relu activation function 
-model.add(layers.Dense(64, activation='relu', input_shape=(X_train.shape[1],)))
+# This is the input layer
+home_m_ANN.add(layers.Dense(64, activation='relu', input_shape=(x_tn.shape[1],)))
 
-# Use the add method to add another dense layer. Layer will have 64 neurons and use the relu activation function 
-model.add(layers.Dense(64, activation='relu'))
+# Use the add method to add another dense layer. Layer will have 64 neurons and use the relu activation function
+# This is a hidden layer
+home_m_ANN.add(layers.Dense(64, activation='relu'))
 
-# Use the add method to add a last dense layer. This layer will be the output layer with 1 neuron
-model.add(layers.Dense(1))
+# Use the add method to add another dense layer. Layer will have 64 neurons and use the relu activation function
+# This is a hidden layer
+home_m_ANN.add(layers.Dense(64, activation='relu'))
+
+# Use the add method to add another dense layer. Layer will have 64 neurons and use the relu activation function
+# This is a hidden layer
+home_m_ANN.add(layers.Dense(64, activation='relu'))
+
+# Use the add method to add a last dense layer. Layer will have 1 neuron 
+# This is the output layer
+home_m_ANN.add(layers.Dense(1))
 
 # Use the compile method to prepare the model
 # Model will use adam for the optimizer and mean squared error for its loss function
-model.compile(optimizer='adam', loss='mean_squared_error')
+home_m_ANN.compile(optimizer='adam', loss='mean_squared_error')
 
 # Use the fit method to train model
 # Model will use the X and y training data.
 # Model will have 10000 epochs and a batch size of 6
-his = model.fit(X_train, y_train, epochs=10000, batch_size=6, verbose=1)
+his = home_m_ANN.fit(x_tn, y_tn, epochs=100, batch_size=6)
 
 ### Get the home seller's data
 s_beds, s_baths, s_sqft = get_seller_data()
@@ -221,92 +227,101 @@ s_d = np.array([[s_beds, s_baths, s_sqft]])
 s_d = scaler.transform(s_d)  # Scale the input
 
 # Use the predict method to get prediction from model using the seller's data
-predicted_price = model.predict(s_d)
+s_p_p = home_m_ANN.predict(s_d)
 
-### Beginning of Cell 4
-y_pred = model.predict(X_test)
-actual_prices = y_test.values.flatten()  
-predicted_prices = y_pred.flatten()      
+# Use the predict method to get prediction from model using the testing data
+y_pred = home_m_ANN.predict(x_ts)
 
-# Calculate percentage off
-percent_off = abs((actual_prices - predicted_prices) / actual_prices) * 100
+# Get the acutal prices and the predicted prices for the testing data
+a_prices = y_ts.values.flatten()  
+p_prices = y_pred.flatten()      
 
-# Create the results table as a DataFrame
-results_df = pd.DataFrame({
-    "Actual Price": actual_prices,
-    "Predicted Price": predicted_prices,
+# Calculate percentage off. Actual price minus predicted prices divided by the actual prices, then multiplies by 100
+percent_off = abs((a_prices - p_prices) / a_prices) * 100
+
+# Create a pandas df containing the actual prices, predicted prices, and the percents difference from the testing data
+t_r_df = pd.DataFrame({
+    "Actual Price": a_prices,
+    "Predicted Price": p_prices,
     "Percent Off": percent_off
 })
-# Sort the DataFrame by the absolute values of "Percent Off" and select the top 5 rows
-results_df = results_df.loc[results_df["Percent Off"].abs().sort_values().index].head(5)
+
+# Sort the pandas df by percent off. Then take only the top 5 elements
+t_r_df = t_r_df.loc[t_r_df["Percent Off"].abs().sort_values().index].head(5)
 
 # Reset the index for the final DataFrame
-results_df = results_df.reset_index(drop=True)
+t_r_df = t_r_df.reset_index(drop=True)
 
-# Example data for home metrics
+# Create a pandas df with number of beds, number of baths, square footage, and price for the regional data and seller's data
 data = {
-    'Metric': ['Beds', 'Baths', 'Square Footage'],
-    'Averages': [avg_beds, avg_baths, avg_sqft],
-    'Your Home': [s_beds, s_baths, s_sqft]  # Example values for your home
+    'Metric': ['Beds', 'Baths', 'Square Footage', 'Price'],
+    'Averages': [avg_beds, avg_baths, avg_sqft, avg_price],
+    'Your Home': [s_beds, s_baths, s_sqft, s_p_p[0][0]]
 }
-metrics_df = pd.DataFrame(data)
+s_r_df = pd.DataFrame(data)
 
 # Set up the subplot grid
-# Set up the subplot grid with a larger figure size
-fig, axs = plt.subplots(3, 2, figsize=(14, 10))  # Increase figure size
-fig.subplots_adjust(hspace=0.4)  # Space between rows
-gs = fig.add_gridspec(3, 2)
+f, a = plt.subplots(3, 2, figsize=(14, 10))
+f.subplots_adjust(hspace=0.4)
+gs = f.add_gridspec(3, 2)
 
-p_price_display = "Your Home Price: ${:.2f}".format(predicted_price[0][0])
-# First row: Display a single number across both columns
-fig.suptitle('AI Price Predictor', fontsize=16)
-fig.text(0.5, 0.85, p_price_display, ha='center', va='center', fontsize=30, color='green')
-axs[0, 0].axis('off')
-axs[0, 1].axis('off')  # Make sure both cells are off
-axs[1, 0].axis('off')
-axs[1, 1].axis('off')
-axs[2, 0].axis('off')
-axs[2, 1].axis('off')
+# Create a string to display predicted price
+p_price_display = "Your Home Price: ${:.2f}".format(s_p_p[0][0])
 
-# Second row: Display the metrics table and results table
-axs[1, 0].axis('off')
-metrics_table = axs[1, 0].table(cellText=metrics_df.values, 
-                                colLabels=metrics_df.columns, 
+# Add a title to the plot
+f.suptitle('AI Price Predictor', fontsize=16)
+
+# Add the text containing the predicted price
+f.text(0.5, 0.85, p_price_display, ha='center', va='center', fontsize=30, color='green')
+
+# Make sure all cells are off
+a[0, 0].axis('off')
+a[0, 1].axis('off')
+a[1, 0].axis('off')
+a[1, 1].axis('off')
+a[2, 0].axis('off')
+a[2, 1].axis('off')
+
+# Set a title for the table in row 2 (1) column 1 (0)
+a[1, 0].set_title("Region Avg. vs. Your Home", fontsize=14)
+
+# Add the table to row 2 (1) column 1 (0)
+metrics_table = a[1, 0].table(cellText=s_r_df.values, 
+                                colLabels=s_r_df.columns, 
                                 cellLoc='center', 
                                 loc='center')
 metrics_table.auto_set_font_size(False)
 metrics_table.set_fontsize(10)
 metrics_table.scale(1.2, 1.2)
-axs[1, 0].set_title("Region Avg. vs. Your Home", fontsize=14)
 
-results_table = axs[1, 1].table(cellText=results_df.round(2).values, 
-                                colLabels=results_df.columns, 
+# Set a title for the table in row 2 (1) column 2 (1)
+a[1, 1].set_title("Model Accuracy", fontsize=14)
+
+# Add the table to row 2 (1) column 2 (1)
+t_r_table = a[1, 1].table(cellText=t_r_df.round(2).values, 
+                                colLabels=t_r_df.columns, 
                                 cellLoc='center', 
                                 loc='center')
-results_table.auto_set_font_size(False)
-results_table.set_fontsize(10)
-results_table.scale(1.2, 1.2)
-axs[1, 1].set_title("Prediction Results Comparison", fontsize=14)
+t_r_table.auto_set_font_size(False)
+t_r_table.set_fontsize(10)
+t_r_table.scale(1.2, 1.2)
 
-ax_loss = fig.add_subplot(gs[2, :])  # Span both columns in the last row
-ax_loss.plot(his.history['loss'], label='Training Loss', color='blue', linewidth=2)
-ax_loss.set_title('Model Loss Over Epochs', fontsize=18)  # Increase title font size
-ax_loss.set_xlabel('Epochs', fontsize=16)  # Increase x-axis label font size
-ax_loss.set_ylabel('Mean Squared Error (MSE)', fontsize=16)  # Increase y-axis label font size
-ax_loss.set_ylim(0, max(his.history['loss']) * 1.1)  # Adjust Y-axis limits for better visibility
-ax_loss.grid(True)  # Add gridlines for easier reading
-ax_loss.legend(loc='upper right', fontsize=14)  # Increase legend font size
+# Make a subplot for loss graph
+loss_g = f.add_subplot(gs[2, :])
+
+# Plot the loss graph
+loss_g.plot(his.history['loss'], label='Training Loss', color='blue', linewidth=2)
+
+# Add title, labels, grid, and a legend to the loss graph
+loss_g.set_title('Model Loss Over Epochs', fontsize=18)
+loss_g.set_xlabel('Epochs', fontsize=16)
+loss_g.set_ylabel('Mean Squared Error (MSE)', fontsize=16)
+loss_g.set_ylim(0, max(his.history['loss']) * 1.1)
+loss_g.grid(True)
+loss_g.legend(loc='upper right', fontsize=14)
 
 # Adjust layout
 plt.tight_layout()
+
+# Show the plot
 plt.show()
-
-
-
-
-
-
-
-
-
-
