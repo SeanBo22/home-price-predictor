@@ -1,4 +1,3 @@
-# Course: CSC510
 # Sean Bohuslavsky
 # Program to give a user (predict) a selling price for their single family home
 # This program only supports a couple zip codes in the Colorado Springs Area
@@ -63,7 +62,7 @@ def get_s_zp_code():
 def l_z_data(s_region):
     print("\n**** Loading Housing Data for Zip Code: {} ****".format(s_zp))
     # Read the csv for the region that contains the zip code entered and store it in a pandas df
-    data_pd = pd.read_csv('data/{}-COS/house-data.csv'.format(s_region), header=0)
+    data_pd = pd.read_csv('data/{}/house-data.csv'.format(s_region), header=0)
     return data_pd
 
 # Function to get the number of beds for seller's home
