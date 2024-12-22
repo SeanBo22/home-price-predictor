@@ -1,69 +1,69 @@
 Price,Zip,City,State,Beds,Baths,Footage
-795000.0,80927,Colorado Springs,CO,4,3,3342
-900000.0,80927,Colorado Springs,CO,8,5,5964
-550000.0,80927,Colorado Springs,CO,4,4,2701
-500000.0,80927,Colorado Springs,CO,4,3,2522
-499000.0,80927,Colorado Springs,CO,4,3,3084
-459048.0,80927,Colorado Springs,CO,3,3,1930
-389000.0,80927,Colorado Springs,CO,3,2,1766
-510000.0,80927,Colorado Springs,CO,5,4,2678
-650000.0,80927,Colorado Springs,CO,5,4,4236
-450000.0,80927,Colorado Springs,CO,4,3,2032
-579000.0,80927,Colorado Springs,CO,4,3,3198
-475000.0,80927,Colorado Springs,CO,3,4,2008
-565000.0,80927,Colorado Springs,CO,3,3,3175
-539000.0,80927,Colorado Springs,CO,4,3,3064
-499000.0,80927,Colorado Springs,CO,4,4,2575
-639000.0,80927,Colorado Springs,CO,6,4,3729
-549900.0,80927,Colorado Springs,CO,4,3,3761
-539900.0,80927,Colorado Springs,CO,4,4,3035
-400000.0,80927,Colorado Springs,CO,2,3,1184
-565900.0,80927,Colorado Springs,CO,3,3,2057
-400000.0,80927,Colorado Springs,CO,3,2,1766
-330900.0,80927,Colorado Springs,CO,2,3,1264
-575000.0,80927,Colorado Springs,CO,5,4,3466
-525000.0,80927,Colorado Springs,CO,3,3,3462
-525000.0,80927,Colorado Springs,CO,4,3,3427
-589000.0,80927,Colorado Springs,CO,4,3,3340
-470000.0,80927,Colorado Springs,CO,3,4,2211
-484000.0,80927,Colorado Springs,CO,4,4,2326
-630000.0,80927,Colorado Springs,CO,5,4,3194
-630000.0,80927,Colorado Springs,CO,3,3,3170
-639000.0,80927,Colorado Springs,CO,4,3,3098
-509900.0,80927,Colorado Springs,CO,3,3,2255
-689500.0,80927,Colorado Springs,CO,4,3,3342
-629000.0,80927,Colorado Springs,CO,3,3,3906
-400000.0,80927,Colorado Springs,CO,2,2,1407
-485000.0,80927,Colorado Springs,CO,4,4,2505
-580000.0,80927,Colorado Springs,CO,3,3,3175
-490000.0,80927,Colorado Springs,CO,3,3,1877
-379900.0,80927,Colorado Springs,CO,3,3,1635
-442990.0,80927,Colorado Springs,CO,2,2,1704
-494000.0,80927,Colorado Springs,CO,3,3,1910
-526010.0,80938,Colorado Springs,CO,4,3,2342
-455000.0,80938,Colorado Springs,CO,3,3,2316
-625000.0,80938,Colorado Springs,CO,4,4,3828
-450000.0,80938,Colorado Springs,CO,3,3,1653
-450000.0,80938,Colorado Springs,CO,3,3,1840
-485000.0,80938,Colorado Springs,CO,3,3,2027
-470000.0,80938,Colorado Springs,CO,3,3,2516
-545000.0,80938,Colorado Springs,CO,3,3,2723
-485000.0,80938,Colorado Springs,CO,3,3,2266
-520685.0,80938,Colorado Springs,CO,3,3,1840
-450000.0,80938,Colorado Springs,CO,3,3,1840
-502060.0,80938,Colorado Springs,CO,3,3,1840
-425000.0,80938,Colorado Springs,CO,3,3,1690
-510000.0,80939,Colorado Springs,CO,4,3,2848
-545000.0,80939,Colorado Springs,CO,5,4,3373
-500000.0,80939,Colorado Springs,CO,4,3,1748
-507000.0,80939,Colorado Springs,CO,4,3,1994
-457000.0,80939,Colorado Springs,CO,3,3,1652
-500000.0,80951,Colorado Springs,CO,4,4,2829
-485000.0,80951,Colorado Springs,CO,5,4,2603
-385000.0,80951,Colorado Springs,CO,3,2,1156
-465000.0,80951,Colorado Springs,CO,3,4,2322
-530000.0,80951,Colorado Springs,CO,5,3,3224
-405000.0,80951,Colorado Springs,CO,3,3,1354
-460000.0,80951,Colorado Springs,CO,5,4,3320
-540000.0,80951,Colorado Springs,CO,4,3,3583
-525000.0,80951,Colorado Springs,CO,4,4,3849
+795000.0,80927,Omaha,Nebraska,4,3,3342
+900000.0,80927,Omaha,Nebraska,8,5,5964
+550000.0,80927,Omaha,Nebraska,4,4,2701
+500000.0,80927,Omaha,Nebraska,4,3,2522
+499000.0,80927,Omaha,Nebraska,4,3,3084
+459048.0,80927,Omaha,Nebraska,3,3,1930
+389000.0,80927,Omaha,Nebraska,3,2,1766
+510000.0,80927,Omaha,Nebraska,5,4,2678
+650000.0,80927,Omaha,Nebraska,5,4,4236
+450000.0,80927,Omaha,Nebraska,4,3,2032
+579000.0,80927,Omaha,Nebraska,4,3,3198
+475000.0,80927,Omaha,Nebraska,3,4,2008
+565000.0,80927,Omaha,Nebraska,3,3,3175
+539000.0,80927,Omaha,Nebraska,4,3,3064
+499000.0,80927,Omaha,Nebraska,4,4,2575
+639000.0,80927,Omaha,Nebraska,6,4,3729
+549900.0,80927,Omaha,Nebraska,4,3,3761
+539900.0,80927,Omaha,Nebraska,4,4,3035
+400000.0,80927,Omaha,Nebraska,2,3,1184
+565900.0,80927,Omaha,Nebraska,3,3,2057
+400000.0,80927,Omaha,Nebraska,3,2,1766
+330900.0,80927,Omaha,Nebraska,2,3,1264
+575000.0,80927,Omaha,Nebraska,5,4,3466
+525000.0,80927,Omaha,Nebraska,3,3,3462
+525000.0,80927,Omaha,Nebraska,4,3,3427
+589000.0,80927,Omaha,Nebraska,4,3,3340
+470000.0,80927,Omaha,Nebraska,3,4,2211
+484000.0,80927,Omaha,Nebraska,4,4,2326
+630000.0,80927,Omaha,Nebraska,5,4,3194
+630000.0,80927,Omaha,Nebraska,3,3,3170
+639000.0,80927,Omaha,Nebraska,4,3,3098
+509900.0,80927,Omaha,Nebraska,3,3,2255
+689500.0,80927,Omaha,Nebraska,4,3,3342
+629000.0,80927,Omaha,Nebraska,3,3,3906
+400000.0,80927,Omaha,Nebraska,2,2,1407
+485000.0,80927,Omaha,Nebraska,4,4,2505
+580000.0,80927,Omaha,Nebraska,3,3,3175
+490000.0,80927,Omaha,Nebraska,3,3,1877
+379900.0,80927,Omaha,Nebraska,3,3,1635
+442990.0,80927,Omaha,Nebraska,2,2,1704
+494000.0,80927,Omaha,Nebraska,3,3,1910
+526010.0,80938,Omaha,Nebraska,4,3,2342
+455000.0,80938,Omaha,Nebraska,3,3,2316
+625000.0,80938,Omaha,Nebraska,4,4,3828
+450000.0,80938,Omaha,Nebraska,3,3,1653
+450000.0,80938,Omaha,Nebraska,3,3,1840
+485000.0,80938,Omaha,Nebraska,3,3,2027
+470000.0,80938,Omaha,Nebraska,3,3,2516
+545000.0,80938,Omaha,Nebraska,3,3,2723
+485000.0,80938,Omaha,Nebraska,3,3,2266
+520685.0,80938,Omaha,Nebraska,3,3,1840
+450000.0,80938,Omaha,Nebraska,3,3,1840
+502060.0,80938,Omaha,Nebraska,3,3,1840
+425000.0,80938,Omaha,Nebraska,3,3,1690
+510000.0,80939,Omaha,Nebraska,4,3,2848
+545000.0,80939,Omaha,Nebraska,5,4,3373
+500000.0,80939,Omaha,Nebraska,4,3,1748
+507000.0,80939,Omaha,Nebraska,4,3,1994
+457000.0,80939,Omaha,Nebraska,3,3,1652
+500000.0,80951,Omaha,Nebraska,4,4,2829
+485000.0,80951,Omaha,Nebraska,5,4,2603
+385000.0,80951,Omaha,Nebraska,3,2,1156
+465000.0,80951,Omaha,Nebraska,3,4,2322
+530000.0,80951,Omaha,Nebraska,5,3,3224
+405000.0,80951,Omaha,Nebraska,3,3,1354
+460000.0,80951,Omaha,Nebraska,5,4,3320
+540000.0,80951,Omaha,Nebraska,4,3,3583
+525000.0,80951,Omaha,Nebraska,4,4,3849
